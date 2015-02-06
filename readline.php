@@ -1,7 +1,9 @@
 <?php
+$termConfig = exec('stty -g');
+system('stty -icanon -echo -isig iutf8');
 dahbug::setData('output', 'print');
 dahbug::setData('ascii_notation', 'caret');
-readline_callback_handler_install('', function() { });
+
 $r = array(STDIN);
 $w = NULL;
 $e = NULL;
@@ -15,10 +17,17 @@ while (!$abort) {
     $c = stream_get_contents(STDIN, -1);
     $len = strlen($c);
     if ($len > 1) {
-        $last = substr($c, -1);
-        $csi = substr($c, 0, 2);
-        $code = substr($c, 2, -1);
+        if ($len > 2) {
+            $last = substr($c, -1);
+            $csi = substr($c, 0, 2);
+            $code = substr($c, 2, -1);
+        } else {
+            $csi = substr($c, 0, 1);
+            $last = substr($c, -1, 1);
+            $code = '';
+        }
 
+        dahbug::dump($len);
         dahbug::dump($csi);
         dahbug::dump($code);
         dahbug::dump($last);
@@ -99,4 +108,4 @@ while (!$abort) {
     }
 }
 
-
+system("stty {$termConfig}");

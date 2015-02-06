@@ -1,3 +1,3 @@
-# php-cli-io
+# php-terminal-io
 
-Experimental IO lib for php cli.
+At the moment, just a playground.

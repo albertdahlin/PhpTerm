@@ -27,10 +27,6 @@ while (!$abort) {
             $code = '';
         }
 
-        dahbug::dump($len);
-        dahbug::dump($csi);
-        dahbug::dump($code);
-        dahbug::dump($last);
         switch ($last) {
             case 'A':
                 if ($csi == "\033[") {

@@ -96,6 +96,19 @@ class Keyboard
         return $char;
     }
 
+    /**
+     * Reads one line from the keyboard. Will accept all printable characters.
+     * You can set a mask of which characters to accept.
+     * 
+     * @param string    $prompt The prompt to display.
+     * @param char|bool $echo   True | False if you want characters to be printed as typed
+                                on the keyboard. You can also pass a character that should be
+     *                          echoed instead, useful for password input, eg "*"
+     * @param string    $mask   A mask of which characters to accept. Accepts any valid regex
+     *                          charset, eg "a-zA-Z", "\d", "\p{L}", "[:print:] etc.
+     * @access public
+     * @return string
+     */
     public function readLine($prompt = ': ', $echo = true, $mask = null)
     {
         $input  = array();
@@ -129,7 +142,7 @@ class Keyboard
     }
 
     /**
-     * Reads one char from STDIN.
+     * Reads one char from STDIN. Will block until bytes are awailable.
      * 
      * @access protected
      * @return string
@@ -147,7 +160,7 @@ class Keyboard
     }
 
     /**
-     * Clears any buffered bytes on STDIN
+     * Clears any buffered bytes on STDIN.
      * 
      * @access protected
      * @return void

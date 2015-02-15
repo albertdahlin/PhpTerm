@@ -96,11 +96,13 @@ class Keyboard
         return $char;
     }
 
-    public function readLine($prompt = ': ', $echo = true, $filter = null)
+    public function readLine($prompt = ': ', $echo = true, $mask = null)
     {
         $input  = array();
         $key    = $this->getKeys();
-        $mask   = '\p{L}';
+        if (!$mask) {
+            $mask = '\p{L}[:print:]';
+        }
 
         $c = null;
         echo $prompt;

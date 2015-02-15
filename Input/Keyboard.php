@@ -66,7 +66,7 @@ class Keyboard
     /**
      * Blocks execution and reads one char from the keyboard. Only returs when
      * a key matching the masks are pressed.
-     * 
+     *
      * @param string $charset A charset to match. Accepts regex charsets, eg
      *                        \d for number, a-z for a to z, \S for all non whitespace etc.
      * @param array  $keys    An array of key identifiers. Use class constants from Keys\Base.
@@ -99,10 +99,10 @@ class Keyboard
     /**
      * Reads one line from the keyboard. Will accept all printable characters.
      * You can set a mask of which characters to accept.
-     * 
+     *
      * @param string    $prompt The prompt to display.
      * @param char|bool $echo   True | False if you want characters to be printed as typed
-                                on the keyboard. You can also pass a character that should be
+     *                          on the keyboard. You can also pass a character that should be
      *                          echoed instead, useful for password input, eg "*"
      * @param string    $mask   A mask of which characters to accept. Accepts any valid regex
      *                          charset, eg "a-zA-Z", "\d", "\p{L}", "[:print:] etc.

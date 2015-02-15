@@ -238,11 +238,11 @@ class Keyboard
         $read    = array(STDIN);
         $write   = NULL;
         $exclude = NULL;
-        $n = stream_select($read, $write, $exclude, null);
+        stream_select($read, $write, $exclude, null);
         stream_set_blocking(STDIN, 0);
-        $c = stream_get_contents(STDIN, -1);
+        $char = stream_get_contents(STDIN, -1);
 
-        return $c;
+        return $char;
     }
 
     /**

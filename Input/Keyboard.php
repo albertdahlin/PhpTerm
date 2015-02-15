@@ -127,14 +127,14 @@ class Keyboard
 
             if ($c === $key::BACKSPACE) {
                 array_pop($input);
-                if ($echo) {
+                if ($echo !== false) {
                     echo "\x08 \x08";
                 }
                 continue;
             }
             array_push($input, $c);
-            if ($echo) {
-                echo $c;
+            if ($echo !== false) {
+                echo is_string($echo) ? $echo : $c;
             }
         }
 

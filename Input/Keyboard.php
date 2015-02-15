@@ -28,6 +28,14 @@ class Keyboard
     protected $_keys;
 
     /**
+     * Holds an autocomplete callback.
+     * 
+     * @var callable
+     * @access protected
+     */
+    protected $_autoComplete;
+
+    /**
      * Class constructor.
      * 
      * @access public
@@ -97,6 +105,21 @@ class Keyboard
     }
 
     /**
+     * Registers an autocomplete callback. The callback should accept one string argument,
+     * the input so far. The callback should return an array of options.
+     * 
+     * @param callable $callback    function($input)
+     * @access public
+     * @return void
+     */
+    public function registerAutocomplete($callback)
+    {
+        if (is_callable($callback)) {
+            $this->_autoComplete = $callback;
+        }
+    }
+
+    /**
      * Reads one line from the keyboard. Will accept all printable characters.
      * You can set a mask of which characters to accept.
      *
@@ -113,32 +136,95 @@ class Keyboard
     {
         $input  = array();
         $key    = $this->getKeys();
+        $char   = null;
+        $cursor = 0;
         if (!$mask) {
             $mask = '\p{L}[:print:]';
         }
 
-        $c = null;
         echo $prompt;
         while (true) {
-            $c = $this->readChar($mask, array($key::ENTER, $key::BACKSPACE));
-            if ($c === $key::ENTER) {
-                break;
-            }
+            $char = $this->readChar(
+                $mask,
+                array(
+                    $key::ENTER,
+                    $key::BACKSPACE,
+                    $key::TAB,
+                )
+            );
+            switch ($char) {
+                case $key::ENTER:
+                    break 2;
 
-            if ($c === $key::BACKSPACE) {
-                array_pop($input);
-                if ($echo !== false) {
-                    echo "\x08 \x08";
-                }
-                continue;
-            }
-            array_push($input, $c);
-            if ($echo !== false) {
-                echo is_string($echo) ? $echo : $c;
+                case $key::BACKSPACE:
+                    if ($cursor > 0) {
+                        array_pop($input);
+                        $cursor--;
+                        if ($echo !== false) {
+                            echo "\x08 \x08";
+                        }
+                    }
+                    break;
+
+                case $key::TAB:
+                    $count = count($input);
+                    echo $this->_getAutoComplete($input);
+                    echo $prompt . implode('', $input);
+                    $cursor += count($input) - $count;
+                    break;
+
+
+                default:
+                    $cursor++;
+                    array_push($input, $char);
+                    if ($echo !== false) {
+                        echo is_string($echo) ? $echo : $char;
+                    }
+                    break;
             }
         }
 
         return implode('', $input);
+    }
+
+    /**
+     * Calls the autocomplete callback and filters the result for
+     * printing.
+     * 
+     * @param string $input
+     * @access protected
+     * @return string
+     */
+    protected function _getAutoComplete(&$input)
+    {
+        if (is_callable($this->_autoComplete)) {
+            $line = implode('', $input);
+            $options = call_user_func($this->_autoComplete, $line);
+            asort($options);
+            $matching = array();
+            $commands = explode(' ', $line);
+            $last = array_pop($commands);
+            if ($last) {
+                foreach ($options as $option) {
+                    if (strpos($option, $last) === 0) {
+                        $matching[] = $option;
+                    }
+                }
+            } else {
+                $matching = $options;
+            }
+            $count = count($matching);
+            if ($count == 0) {
+                return "\r";
+            } elseif ($count == 1) {
+                $commands[] = $matching[0] . ' ';
+                $input = str_split(implode(' ', $commands));
+                return "\r";
+            }
+
+            return "\n" . implode(' ', $matching) . "\n";
+        }
+        return "\r";
     }
 
     /**

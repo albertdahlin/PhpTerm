@@ -149,10 +149,10 @@ class Keyboard
      */
     protected function _getc()
     {
-        $r = array(STDIN);
-        $w = NULL;
-        $e = NULL;
-        $n = stream_select($r, $w, $e, null);
+        $read    = array(STDIN);
+        $write   = NULL;
+        $exclude = NULL;
+        $n = stream_select($read, $write, $exclude, null);
         stream_set_blocking(STDIN, 0);
         $c = stream_get_contents(STDIN, -1);
 
@@ -167,10 +167,10 @@ class Keyboard
      */
     protected function _clear()
     {
-        $r = array(STDIN);
-        $w = NULL;
-        $e = NULL;
-        $n = stream_select($r, $w, $e, 0);
+        $read    = array(STDIN);
+        $write   = NULL;
+        $exclude = NULL;
+        $n = stream_select($read, $write, $exclude, 0);
         stream_set_blocking(STDIN, 0);
         stream_get_contents(STDIN, -1);
     }

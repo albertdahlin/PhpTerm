@@ -46,7 +46,8 @@ class Keyboard
         $this->_termConfig = exec('stty -g');
         system('stty -icanon -echo -isig iutf8');
         include 'Keys/Default.php';
-        $this->_keys = new Keys\Debian;
+        include 'Keys/Xterm.php';
+        $this->_keys = new Keys\Xterm;
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace Dahl\Input\Keys;
 
-class Base
+class Default
 {
     const   ESC         = "\x1b",
             HOME        = "\x1b[1~",
@@ -72,13 +72,3 @@ class Base
             ALT_LEFT   = "\x1b[1;3D";
 }
 
-class Debian extends Base
-{
-    const   HOME        = "\x1bOH",
-            END         = "\x1bOF",
-            BACKSPACE   = "\x7f",
-            F1          = "\x1bOP",
-            F2          = "\x1bOQ",
-            F3          = "\x1bOR",
-            F4          = "\x1bOS";
-}

@@ -1,8 +1,8 @@
 <?php
 
-namespace Dahl\Input\Keys;
+namespace Term\Input\Keys;
 
-class Xterm extends Default$
+class Xterm extends Basic
 {
      const   HOME        = "\x1bOH",
              END         = "\x1bOF",

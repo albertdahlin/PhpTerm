@@ -1,6 +1,6 @@
 <?php
 
-namespace Dahl\Input;
+namespace Term\Input;
 
 /**
  * Reads keyboard input from stdin.
@@ -45,8 +45,6 @@ class Keyboard
     {
         $this->_termConfig = exec('stty -g');
         system('stty -icanon -echo -isig iutf8');
-        include 'Keys/Default.php';
-        include 'Keys/Xterm.php';
         $this->_keys = new Keys\Xterm;
     }
 

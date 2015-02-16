@@ -1,8 +1,8 @@
 <?php
 
-namespace Dahl\Input\Keys;
+namespace Term\Input\Keys;
 
-class Default
+class Basic
 {
     const   ESC         = "\x1b",
             HOME        = "\x1b[1~",

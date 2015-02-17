@@ -1,6 +1,6 @@
 <?php
 
-namespace Term\Input\Keys;
+namespace Dahl\PhpTerm\Input\Keys;
 
 class Xterm extends Basic
 {

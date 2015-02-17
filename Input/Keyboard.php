@@ -1,6 +1,6 @@
 <?php
 
-namespace Term\Input;
+namespace Dahl\PhpTerm\Input;
 
 /**
  * Reads keyboard input from stdin.

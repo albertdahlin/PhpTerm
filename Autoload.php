@@ -1,5 +1,5 @@
 <?php
-namespace Term;
+namespace Dahl\PhpTerm;
 
 /**
  * Autoloader for terminal io lib.
@@ -20,7 +20,7 @@ class Autoload
      */
     static public function register()
     {
-        spl_autoload_register(array('Term\Autoload', 'autoload'));
+        spl_autoload_register(array('Dahl\\PhpTerm\\Autoload', 'autoload'));
     }
 
     /**
@@ -33,8 +33,14 @@ class Autoload
      */
     static public function autoload($class)
     {
-        if (substr($class, 0, 5) == 'Term\\') {
-            include str_replace('\\', '/', substr($class, 5)) . '.php';
+        $prefix = 'Dahl\\PhpTerm\\';
+        $len    = strlen($prefix);
+        if (substr($class, 0, $len) == $prefix) {
+            $filename = substr($class, $len);
+            $filename = str_replace('\\', DIRECTORY_SEPARATOR, $filename);
+            $filename .= '.php';
+            include $filename;
+
             return true;
         }
 

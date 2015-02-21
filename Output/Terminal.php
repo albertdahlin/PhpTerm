@@ -25,6 +25,20 @@ class Terminal
         return $this;
     }
 
+    public function hide()
+    {
+        echo "\x1b[?25l";
+
+        return $this;
+    }
+
+    public function show()
+    {
+        echo "\x1b[?25h";
+
+        return $this;
+    }
+
     /**
      * Moves the cursor up by $amount cells.
      * 

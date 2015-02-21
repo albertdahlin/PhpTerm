@@ -26,6 +26,114 @@ class Terminal
     }
 
     /**
+     * Moves the cursor up by $amount cells.
+     * 
+     * @param int $amount
+     * @access public
+     * @return Terminal
+     */
+    public function up($amount = 1)
+    {
+        echo "\x1b[{$amount}A";
+
+        return $this;
+    }
+
+    /**
+     * Moves the cursor down by $amount cells.
+     * 
+     * @param int $amount
+     * @access public
+     * @return Terminal
+     */
+    public function down($amount = 1)
+    {
+        echo "\x1b[{$amount}B";
+
+        return $this;
+    }
+
+    /**
+     * Moves the cursor right by $amount cells.
+     * 
+     * @param int $amount
+     * @access public
+     * @return Terminal
+     */
+    public function right($amount = 1)
+    {
+        echo "\x1b[{$amount}C";
+
+        return $this;
+    }
+
+    /**
+     * Moves the cursor left by $amount cells.
+     * 
+     * @param int $amount
+     * @access public
+     * @return Terminal
+     */
+    public function left($amount = 1)
+    {
+        echo "\x1b[{$amount}D";
+
+        return $this;
+    }
+
+    /**
+     * Moves the cursor to the first row.
+     * 
+     * @access public
+     * @return Terminal
+     */
+    public function top()
+    {
+        echo "\x1b[1000A";
+
+        return $this;
+    }
+
+    /**
+     * Moves the cursor to the last row.
+     * 
+     * @access public
+     * @return Terminal
+     */
+    public function bottom()
+    {
+        echo "\x1b[1000B";
+
+        return $this;
+    }
+
+    /**
+     * Moves the cursor to the first column.
+     * 
+     * @access public
+     * @return Terminal
+     */
+    public function home()
+    {
+        echo "\x1b[1000D";
+
+        return $this;
+    }
+
+    /**
+     * Moves the cursor to the first column.
+     * 
+     * @access public
+     * @return Terminal
+     */
+    public function end()
+    {
+        echo "\x1b[1000C";
+
+        return $this;
+    }
+
+    /**
      * Sets the cursor position. Defaults to top left corner.
      * 
      * @param int $row

@@ -33,8 +33,12 @@ class Terminal
      * @access public
      * @return Terminal
      */
-    public function pos($row = null, $col = null)
+    public function setPos($row = null, $col = null)
     {
+        if (is_array($row) && isset($row['row'], $row['col'])) {
+            $col = $row['col'];
+            $row = $row['row'];
+        }
         if (!(int)$row) {
             $row = 1;
         }
@@ -54,6 +58,12 @@ class Terminal
      */
     public function getSize()
     {
+         $pos = $this->getPos();
+         $this->setPos(1000, 1000);
+         $size = $this->getPos();
+         $this->setPos($pos);
+
+         return $size;
     }
 
     /**
@@ -64,6 +74,49 @@ class Terminal
      */
     public function getPos()
     {
+        $this->_clearInput();
         echo "\x1b[6n";
+        $pos = $this->_getc();
+        $pos = trim($pos, "R\x1b[");
+        list($row, $col) = explode(';', $pos);
+
+        return array(
+            'row' => $row,
+            'col' => $col
+        );
+    }
+
+    /**
+     * Clears any buffered bytes on STDIN.
+     * 
+     * @access protected
+     * @return void
+     */
+    protected function _clearInput()
+    {
+        $read    = array(STDIN);
+        $write   = NULL;
+        $exclude = NULL;
+        stream_select($read, $write, $exclude, 0);
+        stream_set_blocking(STDIN, 0);
+        stream_get_contents(STDIN, -1);
+    }
+
+    /**
+     * Reads one char from STDIN. Will block until bytes are awailable.
+     * 
+     * @access protected
+     * @return string
+     */
+    protected function _getc()
+    {
+        $read    = array(STDIN);
+        $write   = NULL;
+        $exclude = NULL;
+        stream_select($read, $write, $exclude, null);
+        stream_set_blocking(STDIN, 0);
+        $char = stream_get_contents(STDIN, -1);
+
+        return $char;
     }
 }

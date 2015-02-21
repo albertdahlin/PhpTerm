@@ -2,6 +2,13 @@
 
 namespace Dahl\PhpTerm\Input\Keys;
 
+/**
+ * Basic key defenitions
+ * 
+ * @copyright Copyright (C) 2015 Albert Dahlin
+ * @author Albert Dahlin <info@albertdahlin.com> 
+ * @license MIT License <http://opensource.org/licenses/MIT>
+ */
 class Basic
 {
     const   ESC         = "\x1b",

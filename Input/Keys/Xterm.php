@@ -2,6 +2,14 @@
 
 namespace Dahl\PhpTerm\Input\Keys;
 
+/**
+ * Xterm Key defenitions
+ * 
+ * @uses Basic
+ * @copyright Copyright (C) 2015 Albert Dahlin
+ * @author Albert Dahlin <info@albertdahlin.com> 
+ * @license MIT License <http://opensource.org/licenses/MIT>
+ */
 class Xterm extends Basic
 {
      const   HOME        = "\x1bOH",

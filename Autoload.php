@@ -20,7 +20,7 @@ class Autoload
      */
     static public function register()
     {
-        spl_autoload_register(array('Dahl\\PhpTerm\\Autoload', 'autoload'));
+        spl_autoload_register(array('Dahl\\PhpTerm\\Autoload', 'autoload'), true, true);
     }
 
     /**

@@ -147,6 +147,13 @@ class Terminal
         return $this;
     }
 
+    public function setCol($col = 1)
+    {
+        echo "\x1b[{$col}G";
+
+        return $this;
+    }
+
     /**
      * Sets the cursor position. Defaults to top left corner.
      * 

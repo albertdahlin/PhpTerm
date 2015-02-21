@@ -13,15 +13,57 @@ namespace Dahl\PhpTerm\Output;
 class Terminal
 {
     /**
-     * Clears screen
+     * Clear screen
      * 
      * @access public
      * @return Terminal
      */
-    public function clear()
+    public function cls()
     {
-        echo "\x1b2J";
+        echo "\x1b[2J";
 
         return $this;
+    }
+
+    /**
+     * Sets the cursor position. Defaults to top left corner.
+     * 
+     * @param int $row
+     * @param int $col
+     * @access public
+     * @return Terminal
+     */
+    public function pos($row = null, $col = null)
+    {
+        if (!(int)$row) {
+            $row = 1;
+        }
+        if (!(int)$col) {
+            $col = 1;
+        }
+        echo "\x1b[{$row};{$col}H";
+
+        return $this;
+    }
+
+    /**
+     * Returns viewport size.
+     * 
+     * @access public
+     * @return array
+     */
+    public function getSize()
+    {
+    }
+
+    /**
+     * Returns the cursor position.
+     * 
+     * @access public
+     * @return array
+     */
+    public function getPos()
+    {
+        echo "\x1b[6n";
     }
 }

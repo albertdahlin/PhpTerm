@@ -1,10 +1,6 @@
 <?php
 namespace Dahl\PhpTerm;
 
-if (class_exists('Dahl\PhpTerm\Autoload')) {
-    return;
-}
-
 /**
  * Autoloader for terminal io lib.
  * 

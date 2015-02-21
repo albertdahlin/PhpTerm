@@ -71,6 +71,23 @@ class Keyboard
     }
 
     /**
+     * Reads stdin in non-blocking mode.
+     * 
+     * @access public
+     * @return string;
+     */
+    public function readInput()
+    {
+        $read    = array(STDIN);
+        $write   = NULL;
+        $exclude = NULL;
+        stream_select($read, $write, $exclude, 0);
+        stream_set_blocking(STDIN, 0);
+
+        return stream_get_contents(STDIN, -1);
+    }
+
+    /**
      * Blocks execution and reads one char from the keyboard. Only returs when
      * a key matching the masks are pressed.
      *

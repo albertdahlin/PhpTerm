@@ -255,7 +255,7 @@ class Keyboard
         $read    = array(STDIN);
         $write   = NULL;
         $exclude = NULL;
-        $n = stream_select($read, $write, $exclude, 0);
+        stream_select($read, $write, $exclude, 0);
         stream_set_blocking(STDIN, 0);
         stream_get_contents(STDIN, -1);
     }

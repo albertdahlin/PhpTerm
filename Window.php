@@ -44,6 +44,14 @@ class Window
     protected $_elements = array();
 
     /**
+     * An element that has focus.
+     * 
+     * @var mixed
+     * @access protected
+     */
+    protected $_focus;
+
+    /**
      * Constructor. Initializes input and output.
      * 
      * @access public
@@ -93,6 +101,20 @@ class Window
     }
 
     /**
+     * Set focus on an element.
+     * 
+     * @param Element $element
+     * @access public
+     * @return Window
+     */
+    public function setFocus($element)
+    {
+        $this->_focus = $element;
+
+        return $this;
+    }
+
+    /**
      * Render window elements.
      * 
      * @access public
@@ -102,6 +124,10 @@ class Window
     {
         foreach ($this->_elements as $element) {
             $element->render();
+        }
+
+        if ($this->_focus) {
+            $this->_focus->applyFocus();
         }
     }
 

@@ -265,7 +265,7 @@ class Element
                 $bottom = ceil($size['row'] * $bottom);
             }
 
-            $row = $size['row'] - $bottom - 1;
+            $row = $size['row'] - $bottom;
         }
 
         return $row;

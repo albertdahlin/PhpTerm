@@ -119,6 +119,37 @@ class Element
     }
 
     /**
+     * Select this element as the focus element.
+     * 
+     * @access public
+     * @return Element
+     */
+    public function setFocus()
+    {
+        $this->_parent->setFocus($this);
+
+        return $this;
+    }
+
+    /**
+     * Applies focus, moving the cursor to the end of the
+     * element.
+     * 
+     * @access public
+     * @return void
+     */
+    public function applyFocus()
+    {
+        $output = $this->getOutput();
+        $width  = $this->getWidth();
+        $height = $this->getHeight();
+
+        $row = $this->_getStartRow($height);
+        $col = $this->_getStartCol($width, $width);
+        $output->setPos($row, $col + $width);
+    }
+
+    /**
      * Set element text.
      * 
      * @param string $string

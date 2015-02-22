@@ -103,6 +103,8 @@ class Element
     public function setParent($parent)
     {
         $this->_parent = $parent;
+
+        return $this;
     }
 
     /**
@@ -228,16 +230,17 @@ class Element
         $output = $this->getOutput();
         $width  = $this->getWidth();
         $height = $this->getHeight();
-        $offset = $this->_getHOff($width);
 
         $row = $this->_getStartRow($height);
         foreach ($this->_text as $line) {
             $len = mb_strlen($line);
-            $col = $this->_getStartCol($len, $width, $offset);
+            $col = $this->_getStartCol($len, $width);
             $output->setPos($row, $col);
             echo $line;
             $row++;
         }
+
+        $this->_hasChanges = false;
     }
 
     /**
@@ -247,7 +250,7 @@ class Element
      * @access protected
      * @return int
      */
-    protected function _getStartRow($len)
+    protected function _getStartRow($len = 1)
     {
         $top    = $this->getStyle('top');
         $bottom = $this->getStyle('bottom');
@@ -280,10 +283,11 @@ class Element
      * @access protected
      * @return int
      */
-    protected function _getStartCol($len, $width, $offset = 0)
+    protected function _getStartCol($len, $width)
     {
-        $align = $this->getStyle('text-align');
-        $valid = array('left', 'right', 'center');
+        $align  = $this->getStyle('text-align');
+        $valid  = array('left', 'right', 'center');
+        $offset = $this->_getHOff($width);
 
         if (!$align || !in_array($align, $valid)) {
             $align = 'left';

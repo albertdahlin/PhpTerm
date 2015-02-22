@@ -112,10 +112,11 @@ class Window
      * @access public
      * @return Element
      */
-    public function addElement($id)
+    public function addElement($id, $type = 'Element')
     {
         if (!isset($this->_elements[$id])) {
-            $element = new Output\Element($id);
+            $type = __namespace__ . '\\Output\\' . ucfirst($type);
+            $element = new $type($id);
             $this->_elements[$id] = $element;
             $element->setParent($this);
 

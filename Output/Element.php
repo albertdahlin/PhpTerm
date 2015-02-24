@@ -160,6 +160,8 @@ class Element
     {
         $this->_hasChanges = true;
         $this->_text = explode("\n", $string);
+
+        return $this;
     }
 
     /**
@@ -272,6 +274,8 @@ class Element
         }
 
         $this->_hasChanges = false;
+
+        return $this;
     }
 
     /**

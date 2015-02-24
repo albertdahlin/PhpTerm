@@ -268,9 +268,14 @@ class Element
         foreach ($this->_text as $line) {
             $len = mb_strlen($line);
             $col = $this->_getStartCol($len, $width);
-            $output->setPos($row, $col);
-            echo $line;
-            $row++;
+            if ($row !== false) {
+                $output->setPos($row, $col);
+                echo $line;
+                $row++;
+            } else {
+                $output->setCol($col);
+                echo $line . "\n";
+            }
         }
 
         $this->_hasChanges = false;
@@ -287,23 +292,28 @@ class Element
      */
     protected function _getStartRow($len = 1)
     {
-        $top    = $this->getStyle('top');
-        $bottom = $this->getStyle('bottom');
-        $size   = $this->getSize();
+        $top      = $this->getStyle('top');
+        $bottom   = $this->getStyle('bottom');
+        $position = $this->getStyle('position');
+        $size     = $this->getSize();
 
-        if ($top !== null) {
-            if (substr($top, -1) == '%') {
-                $top = substr($top, 0, -1) / 100;
-                $top = ceil($size['row'] * $top);
-            }
-            $row = $top + 1;
-        } elseif ($bottom !== null) {
-            if (substr($bottom, -1) == '%') {
-                $bottom = substr($bottom, 0, -1) / 100;
-                $bottom = ceil($size['row'] * $bottom);
-            }
+        if ($position == 'fixed') {
+            if ($top !== null) {
+                if (substr($top, -1) == '%') {
+                    $top = substr($top, 0, -1) / 100;
+                    $top = ceil($size['row'] * $top);
+                }
+                $row = $top + 1;
+            } elseif ($bottom !== null) {
+                if (substr($bottom, -1) == '%') {
+                    $bottom = substr($bottom, 0, -1) / 100;
+                    $bottom = ceil($size['row'] * $bottom);
+                }
 
-            $row = $size['row'] - $bottom;
+                $row = $size['row'] - $bottom;
+            }
+        } else {
+            $row = false;
         }
 
         return $row;

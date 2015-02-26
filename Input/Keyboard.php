@@ -166,11 +166,15 @@ class Keyboard
                     $key::ENTER,
                     $key::BACKSPACE,
                     $key::TAB,
+                    $key::ESC,
                 )
             );
             switch ($char) {
                 case $key::ENTER:
                     break 2;
+
+                case $key::ESC:
+                    return false;
 
                 case $key::BACKSPACE:
                     if ($cursor > 0) {

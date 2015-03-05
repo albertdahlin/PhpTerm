@@ -1,5 +1,5 @@
 <?php
-namespace Dahl\PhpTerm;
+namespace Dahl;
 
 /**
  * Autoloader for terminal io lib.
@@ -12,6 +12,37 @@ namespace Dahl\PhpTerm;
 class Autoload
 {
     /**
+     * Holds basedirs for namespaces. 
+     * 
+     * @var array
+     * @access protected
+     */
+    static protected $_baseDirs = array();
+
+    /**
+     * Register a namespace base dir for autoloading.
+     * 
+     * @param string $namespace 
+     * @param string $dir 
+     * @static
+     * @access public
+     * @return void
+     */
+    static public function registerBase($namespace, $dir)
+    {
+        $nameArr = explode('\\', $namespace);
+        $currentDir = &self::$_baseDirs;
+        foreach ($nameArr as $name) {
+            if (!isset($currentDir[$name])) {
+                $currentDir[$name] = array();
+            }
+            $currentDir = &$currentDir[$name];
+        }
+
+        $currentDir = $dir;
+    }
+
+    /**
      * Register spl autoload function.
      * 
      * @static
@@ -20,7 +51,7 @@ class Autoload
      */
     static public function register()
     {
-        spl_autoload_register(array('Dahl\\PhpTerm\\Autoload', 'autoload'), true, true);
+        spl_autoload_register(array('Dahl\\Autoload', 'autoload'), true, true);
     }
 
     /**
@@ -33,13 +64,19 @@ class Autoload
      */
     static public function autoload($class)
     {
-        $prefix = 'Dahl\\PhpTerm\\';
-        $len    = strlen($prefix);
-        if (substr($class, 0, $len) == $prefix) {
-            $filename = substr($class, $len);
-            $filename = str_replace('\\', DIRECTORY_SEPARATOR, $filename);
-            $filename .= '.php';
-            include $filename;
+        $classArr   = explode('\\', $class);
+        $currentDir = self::$_baseDirs;
+        $filename   = '';
+        foreach ($classArr as $name) {
+            if (!isset($currentDir[$name])) {
+                $filename .= DIRECTORY_SEPARATOR . $name;
+                continue;
+            }
+            $currentDir = $currentDir[$name];
+        }
+        if ($currentDir) {
+            $file = $currentDir . $filename . '.php';
+            include $file;
 
             return true;
         }
@@ -47,5 +84,5 @@ class Autoload
         return false;
     }
 }
-
+Autoload::registerBase('Dahl\\PhpTerm', dirname(__file__));
 Autoload::register();

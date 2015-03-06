@@ -67,14 +67,23 @@ class Autoload
         $classArr   = explode('\\', $class);
         $currentDir = self::$_baseDirs;
         $filename   = '';
+        $isFound    = false;
         foreach ($classArr as $name) {
-            if (!isset($currentDir[$name])) {
+            if ($isFound) {
                 $filename .= DIRECTORY_SEPARATOR . $name;
                 continue;
             }
-            $currentDir = $currentDir[$name];
+            if (isset($currentDir[$name])) {
+                $currentDir = $currentDir[$name];
+            } elseif (isset($currentDir['*'])) {
+                $currentDir = $currentDir['*'];
+                $filename .= DIRECTORY_SEPARATOR . $name;
+            }
+            if (is_string($currentDir)) {
+                $isFound = true;
+            }
         }
-        if ($currentDir) {
+        if (is_string($currentDir)) {
             $file = $currentDir . $filename . '.php';
             include $file;
 

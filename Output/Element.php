@@ -17,7 +17,7 @@ class Element
      * @var array
      * @access protected
      */
-    protected $_text;
+    protected $_text = array();
 
     /**
      * If element text or style has changed.
@@ -269,9 +269,9 @@ class Element
      * @access public
      * @return void
      */
-    public function render()
+    public function render($force = false)
     {
-        if (!$this->_hasChanges) {
+        if (!$force && !$this->_hasChanges) {
             return;
         }
         $output = $this->getOutput();

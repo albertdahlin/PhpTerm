@@ -120,10 +120,10 @@ class Window
      * @access public
      * @return void
      */
-    public function render()
+    public function render($force = false)
     {
         foreach ($this->_elements as $element) {
-            $element->render();
+            $element->render($force);
         }
 
         if ($this->_focus) {
@@ -175,5 +175,16 @@ class Window
     public function removeElements()
     {
         $this->_elements = array();
+    }
+
+    /**
+     * Returns a new page.
+     *
+     * @access public
+     * @return Page
+     */
+    public function getPage()
+    {
+        return new Page($this);
     }
 }

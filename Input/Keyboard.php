@@ -4,16 +4,16 @@ namespace Dahl\PhpTerm\Input;
 
 /**
  * Reads keyboard input from stdin.
- * 
+ *
  * @copyright Copyright (C) 2015 Albert Dahlin
- * @author Albert Dahlin <info@albertdahlin.com> 
+ * @author Albert Dahlin <info@albertdahlin.com>
  * @license MIT License <http://opensource.org/licenses/MIT>
  */
 class Keyboard
 {
     /**
      * Stores tty config.
-     * 
+     *
      * @var string
      * @access protected
      */
@@ -21,7 +21,7 @@ class Keyboard
 
     /**
      * Holds a mapping class for escape codes to keys.
-     * 
+     *
      * @var mixed
      * @access Base
      */
@@ -29,7 +29,7 @@ class Keyboard
 
     /**
      * Holds an autocomplete callback.
-     * 
+     *
      * @var callable
      * @access protected
      */
@@ -37,7 +37,7 @@ class Keyboard
 
     /**
      * Class constructor.
-     * 
+     *
      * @access public
      * @return void
      */
@@ -50,7 +50,7 @@ class Keyboard
 
     /**
      * Class destructor.
-     * 
+     *
      * @access public
      * @return void
      */
@@ -61,7 +61,7 @@ class Keyboard
 
     /**
      * Returns key class map.
-     * 
+     *
      * @access public
      * @return void
      */
@@ -72,7 +72,7 @@ class Keyboard
 
     /**
      * Reads stdin in non-blocking mode.
-     * 
+     *
      * @access public
      * @return string;
      */
@@ -123,7 +123,7 @@ class Keyboard
     /**
      * Registers an autocomplete callback. The callback should accept one string argument,
      * the input so far. The callback should return an array of options.
-     * 
+     *
      * @param callable $callback    function($input)
      * @access public
      * @return void
@@ -210,7 +210,7 @@ class Keyboard
     /**
      * Calls the autocomplete callback and filters the result for
      * printing.
-     * 
+     *
      * @param string $input
      * @access protected
      * @return string
@@ -249,7 +249,7 @@ class Keyboard
 
     /**
      * Reads one char from STDIN. Will block until bytes are awailable.
-     * 
+     *
      * @access protected
      * @return string
      */
@@ -267,7 +267,7 @@ class Keyboard
 
     /**
      * Clears any buffered bytes on STDIN.
-     * 
+     *
      * @access protected
      * @return void
      */

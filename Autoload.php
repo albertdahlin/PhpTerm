@@ -3,8 +3,7 @@ namespace Dahl;
 
 /**
  * Autoloader for terminal io lib.
- * 
- * @package 
+ *
  * @copyright Copyright (C) 2015 Albert Dahlin
  * @author Albert Dahlin <info@albertdahlin.com>
  * @license MIT License <http://opensource.org/licenses/MIT>
@@ -12,8 +11,8 @@ namespace Dahl;
 class Autoload
 {
     /**
-     * Holds basedirs for namespaces. 
-     * 
+     * Holds basedirs for namespaces.
+     *
      * @var array
      * @access protected
      */
@@ -21,9 +20,9 @@ class Autoload
 
     /**
      * Register a namespace base dir for autoloading.
-     * 
-     * @param string $namespace 
-     * @param string $dir 
+     *
+     * @param string $namespace
+     * @param string $dir
      * @static
      * @access public
      * @return void
@@ -44,7 +43,7 @@ class Autoload
 
     /**
      * Register spl autoload function.
-     * 
+     *
      * @static
      * @access public
      * @return void
@@ -56,7 +55,7 @@ class Autoload
 
     /**
      * Autoload function.
-     * 
+     *
      * @param string $class
      * @static
      * @access public
@@ -93,5 +92,6 @@ class Autoload
         return false;
     }
 }
+
 Autoload::registerBase('Dahl\\PhpTerm', dirname(__file__));
 Autoload::register();

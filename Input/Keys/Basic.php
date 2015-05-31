@@ -4,9 +4,9 @@ namespace Dahl\PhpTerm\Input\Keys;
 
 /**
  * Basic key defenitions
- * 
+ *
  * @copyright Copyright (C) 2015 Albert Dahlin
- * @author Albert Dahlin <info@albertdahlin.com> 
+ * @author Albert Dahlin <info@albertdahlin.com>
  * @license MIT License <http://opensource.org/licenses/MIT>
  */
 class Basic

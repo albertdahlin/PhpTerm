@@ -4,17 +4,66 @@ namespace Dahl\PhpTerm\Output;
 
 /**
  * Output handler for printing to terminal.
- * 
- * @package 
+ *
+ * @package
  * @copyright Copyright (C) 2015 Albert Dahlin
- * @author Albert Dahlin <info@albertdahlin.com> 
+ * @author Albert Dahlin <info@albertdahlin.com>
  * @license MIT License <http://opensource.org/licenses/MIT>
  */
 class Terminal
 {
     /**
+     * Ansi escape codes for foreground colors.
+     *
+     * @var array
+     * @access protected
+     */
+    protected $_fgColors = array(
+        'black'         => '30',
+        'grey'          => '30;1',
+        'red'           => '31',
+        'light_red'     => '31;1',
+        'green'         => '32',
+        'light_green'   => '32;1',
+        'yellow'        => '33',
+        'brown'         => '33;1',
+        'blue'          => '34',
+        'light_blue'    => '34;1',
+        'purple'        => '35',
+        'light_purple'  => '35;1',
+        'cyan'          => '36',
+        'light_cyan'    => '36;1',
+        'light_grey'    => '37',
+        'white'         => '37;1',
+    );
+
+    /**
+     * Ansi escape codes for background colors.
+     *
+     * @var array
+     * @access protected
+     */
+    protected $_bgColors = array(
+        'black'         => '40',
+        'grey'          => '40;1',
+        'red'           => '41',
+        'light_red'     => '41;1',
+        'green'         => '42',
+        'light_green'   => '42;1',
+        'yellow'        => '43',
+        'brown'         => '43;1',
+        'blue'          => '44',
+        'light_blue'    => '44;1',
+        'purple'        => '45',
+        'light_purple'  => '45;1',
+        'cyan'          => '46',
+        'light_cyan'    => '46;1',
+        'light_grey'    => '47',
+        'white'         => '47;1',
+    );
+    /**
      * Clear screen
-     * 
+     *
      * @access public
      * @return Terminal
      */
@@ -41,7 +90,7 @@ class Terminal
 
     /**
      * Moves the cursor up by $amount cells.
-     * 
+     *
      * @param int $amount
      * @access public
      * @return Terminal
@@ -55,7 +104,7 @@ class Terminal
 
     /**
      * Moves the cursor down by $amount cells.
-     * 
+     *
      * @param int $amount
      * @access public
      * @return Terminal
@@ -69,7 +118,7 @@ class Terminal
 
     /**
      * Moves the cursor right by $amount cells.
-     * 
+     *
      * @param int $amount
      * @access public
      * @return Terminal
@@ -83,7 +132,7 @@ class Terminal
 
     /**
      * Moves the cursor left by $amount cells.
-     * 
+     *
      * @param int $amount
      * @access public
      * @return Terminal
@@ -97,7 +146,7 @@ class Terminal
 
     /**
      * Moves the cursor to the first row.
-     * 
+     *
      * @access public
      * @return Terminal
      */
@@ -110,7 +159,7 @@ class Terminal
 
     /**
      * Moves the cursor to the last row.
-     * 
+     *
      * @access public
      * @return Terminal
      */
@@ -123,7 +172,7 @@ class Terminal
 
     /**
      * Moves the cursor to the first column.
-     * 
+     *
      * @access public
      * @return Terminal
      */
@@ -136,7 +185,7 @@ class Terminal
 
     /**
      * Moves the cursor to the first column.
-     * 
+     *
      * @access public
      * @return Terminal
      */
@@ -147,6 +196,13 @@ class Terminal
         return $this;
     }
 
+    /**
+     * Set column position.
+     *
+     * @param int $col
+     * @access public
+     * @return Terminal
+     */
     public function setCol($col = 1)
     {
         echo "\x1b[{$col}G";
@@ -155,8 +211,36 @@ class Terminal
     }
 
     /**
+     * Returns an ANSI foreground color number.
+     *
+     * @param string $color
+     * @access public
+     * @return string
+     */
+    public function getFgColor($color)
+    {
+        if (isset($this->_fgColors[$color])) {
+            return $this->_fgColors[$color];
+        }
+    }
+
+    /**
+     * Returns an ANSI background color number.
+     *
+     * @param string $color
+     * @access public
+     * @return string
+     */
+    public function getBgColor($color)
+    {
+        if (isset($this->_bgColors[$color])) {
+            return $this->_bgColors[$color];
+        }
+    }
+
+    /**
      * Sets the cursor position. Defaults to top left corner.
-     * 
+     *
      * @param int $row
      * @param int $col
      * @access public
@@ -181,7 +265,7 @@ class Terminal
 
     /**
      * Returns viewport size.
-     * 
+     *
      * @access public
      * @return array
      */
@@ -197,7 +281,7 @@ class Terminal
 
     /**
      * Returns the cursor position.
-     * 
+     *
      * @access public
      * @return array
      */
@@ -217,7 +301,7 @@ class Terminal
 
     /**
      * Clears any buffered bytes on STDIN.
-     * 
+     *
      * @access protected
      * @return void
      */
@@ -233,7 +317,7 @@ class Terminal
 
     /**
      * Reads one char from STDIN. Will block until bytes are awailable.
-     * 
+     *
      * @access protected
      * @return string
      */

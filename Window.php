@@ -4,7 +4,7 @@ namespace Dahl\PhpTerm;
 
 /**
  * Wrapper class for handling input and output on a terminal application.
- * 
+ *
  * @copyright Copyright (C) 2015 Albert Dahlin
  * @author Albert Dahlin <info@albertdahlin.com>
  * @license MIT License <http://opensource.org/licenses/MIT>
@@ -13,7 +13,7 @@ class Window
 {
     /**
      * Input object.
-     * 
+     *
      * @var Keyboard
      * @access protected
      */
@@ -21,7 +21,7 @@ class Window
 
     /**
      * Output class.
-     * 
+     *
      * @var Terminal
      * @access protected
      */
@@ -29,7 +29,7 @@ class Window
 
     /**
      * Holds the window size.
-     * 
+     *
      * @var array
      * @access protected
      */
@@ -37,7 +37,7 @@ class Window
 
     /**
      * The elements added to the window.
-     * 
+     *
      * @var array
      * @access protected
      */
@@ -45,7 +45,7 @@ class Window
 
     /**
      * An element that has focus.
-     * 
+     *
      * @var mixed
      * @access protected
      */
@@ -53,7 +53,7 @@ class Window
 
     /**
      * Constructor. Initializes input and output.
-     * 
+     *
      * @access public
      * @return void
      */
@@ -65,7 +65,7 @@ class Window
 
     /**
      * Returns the intput object.
-     * 
+     *
      * @access public
      * @return Keyboard
      */
@@ -76,7 +76,7 @@ class Window
 
     /**
      * Returns the output object.
-     * 
+     *
      * @access public
      * @return Terminal
      */
@@ -87,7 +87,7 @@ class Window
 
     /**
      * Returns the widow size in rows and cols.
-     * 
+     *
      * @access public
      * @return array
      */
@@ -102,7 +102,7 @@ class Window
 
     /**
      * Set focus on an element.
-     * 
+     *
      * @param Element $element
      * @access public
      * @return Window
@@ -116,7 +116,7 @@ class Window
 
     /**
      * Render window elements.
-     * 
+     *
      * @access public
      * @return void
      */
@@ -133,7 +133,7 @@ class Window
 
     /**
      * Adds an element to the output and returns it.
-     * 
+     *
      * @param string $id
      * @access public
      * @return Element
@@ -150,5 +150,30 @@ class Window
         } else {
             throw new Exception("An element with id {$id} already exists");
         }
+    }
+
+    /**
+     * Remove one element by id.
+     *
+     * @param string $id
+     * @access public
+     * @return void
+     */
+    public function removeElement($id)
+    {
+        if (isset($this->_elements[$id])) {
+            unset($this->_elements[$id]);
+        }
+    }
+
+    /**
+     * Remove all elements
+     *
+     * @access public
+     * @return void
+     */
+    public function removeElements()
+    {
+        $this->_elements = array();
     }
 }

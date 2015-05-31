@@ -4,9 +4,9 @@ namespace Dahl\PhpTerm\Output;
 
 /**
  * Prints a progress bar.
- * 
+ *
  * @copyright Copyright (C) 2015 Albert Dahlin
- * @author Albert Dahlin <info@albertdahlin.com> 
+ * @author Albert Dahlin <info@albertdahlin.com>
  * @license MIT License <http://opensource.org/licenses/MIT>
  */
 class ProgressBar
@@ -14,7 +14,7 @@ class ProgressBar
 {
     /**
      * Progress bar start value;
-     * 
+     *
      * @var float
      * @access protected
      */
@@ -22,7 +22,7 @@ class ProgressBar
 
     /**
      * Progress bar end value.
-     * 
+     *
      * @var float
      * @access protected
      */
@@ -30,7 +30,7 @@ class ProgressBar
 
     /**
      * Progress bar current value.
-     * 
+     *
      * @var float
      * @access protected
      */
@@ -38,7 +38,7 @@ class ProgressBar
 
     /**
      * Progress bar with in columns.
-     * 
+     *
      * @var float
      * @access protected
      */
@@ -46,7 +46,7 @@ class ProgressBar
 
     /**
      * If the output should use UTF-8 chars or ascii.
-     * 
+     *
      * @var boolen
      * @access protected
      */
@@ -54,7 +54,7 @@ class ProgressBar
 
     /**
      * Set the progress bar start value
-     * 
+     *
      * @param float $min
      * @access public
      * @return void
@@ -68,7 +68,7 @@ class ProgressBar
 
     /**
      * Set the progress bar end value.
-     * 
+     *
      * @param float $max
      * @access public
      * @return void
@@ -83,7 +83,7 @@ class ProgressBar
     /**
      * Set the progress bar width in columns. Also
      * accepts a percentage of the screen width, eg 100%.
-     * 
+     *
      * @param int $width
      * @access public
      * @return void
@@ -102,7 +102,7 @@ class ProgressBar
 
     /**
      * Set the progress bar current position.
-     * 
+     *
      * @param float $pos
      * @access public
      * @return void
@@ -117,7 +117,7 @@ class ProgressBar
 
     /**
      * Enable or disable UTF chars.
-     * 
+     *
      * @param mixed $flag
      * @access public
      * @return void
@@ -131,7 +131,7 @@ class ProgressBar
 
     /**
      * Render the progress bar.
-     * 
+     *
      * @access public
      * @return void
      */

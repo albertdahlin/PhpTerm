@@ -12,22 +12,58 @@ namespace Dahl\PhpTerm\Output;
 class Options
  extends Element
 {
-    protected $_options;
+    protected $_options = array();
     protected $_selected;
 
     public function setOptions($options)
     {
         $this->_options = $options;
+        $this->_text = array();
+
+        return $this;
+    }
+
+    public function setSelected($key)
+    {
+        $this->_selected = $key;
+
+        return $this;
+    }
+
+    public function getWidth()
+    {
+        $width = 0;
+        foreach ($this->_options as $row) {
+            $width = max($width, mb_strlen($row));
+        }
+
+        return $width;
+    }
+
+    protected function _getIndex()
+    {
+        $index = 0;
+        if ($this->_selected) {
+            foreach ($this->_options as $key => $value) {
+                if ($key === $this->_selected) {
+                    return $index;
+                    break;
+                }
+                $index++;
+            }
+        }
+        return 0;
     }
 
     public function getOption()
     {
-        $index = 0;
+        $index = $this->_getIndex();
         $max = count($this->_options) - 1;
         $size = $this->getSize();
         $startRow = $this->_getStartRow();
         $maxHeight = $size['row'] - $startRow;
         $start  = 0;
+        $width = $this->getWidth() + 2;
 
         while (true) {
             $this->_text = array();
@@ -47,14 +83,15 @@ class Options
                 if ($index == $i) {
                     $this->_selected = $value;
                 }
-                if ($this->_selected == $value) {
+                $label = str_pad(" $label ", $width, ' ', $this->_getStrPad());
+                if ($this->_selected === $value) {
                     $this->_text[] = array(
                         'color' => 'black',
                         'background' => 'light_grey',
-                        'text'  => " {$label} ",
+                        'text'  => $label,
                     );
                 } else {
-                    $this->_text[] = array('text' => " {$label} ");
+                    $this->_text[] = array('text' => $label);
                 }
             }
 
@@ -138,6 +175,19 @@ class Options
 
         $row = $this->_getStartRow($height) + $rowOffset;
         $col = $this->_getStartCol($width, $width);
-        $output->setPos($row, $col + 1);
+        $output->setPos($row, $col);
+    }
+
+    protected function _getStrPad()
+    {
+        $style = $this->getStyle('text-align');
+        switch ($style) {
+            case 'center':
+                return STR_PAD_BOTH;
+            case 'left':
+                return STR_PAD_LEFT;
+            default:
+                return STR_PAD_RIGHT;
+        }
     }
 }

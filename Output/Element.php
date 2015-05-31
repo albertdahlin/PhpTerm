@@ -4,16 +4,16 @@ namespace Dahl\PhpTerm\Output;
 
 /**
  * Element class. For printing text.
- * 
+ *
  * @copyright Copyright (C) 2015 Albert Dahlin
- * @author Albert Dahlin <info@albertdahlin.com> 
+ * @author Albert Dahlin <info@albertdahlin.com>
  * @license MIT License <http://opensource.org/licenses/MIT>
  */
 class Element
 {
     /**
      * The text to print.
-     * 
+     *
      * @var array
      * @access protected
      */
@@ -21,7 +21,7 @@ class Element
 
     /**
      * If element text or style has changed.
-     * 
+     *
      * @var boolean
      * @access protected
      */
@@ -29,7 +29,7 @@ class Element
 
     /**
      * The element Id
-     * 
+     *
      * @var string
      * @access protected
      */
@@ -37,7 +37,7 @@ class Element
 
     /**
      * The parent element
-     * 
+     *
      * @var Window | Element
      * @access protected
      */
@@ -45,7 +45,7 @@ class Element
 
     /**
      * The size of parent element.
-     * 
+     *
      * @var array
      * @access protected
      */
@@ -53,7 +53,7 @@ class Element
 
     /**
      * The element style.
-     * 
+     *
      * @var array
      * @access protected
      */
@@ -61,8 +61,8 @@ class Element
 
     /**
      * Constructor.
-     * 
-     * @param string $id 
+     *
+     * @param string $id
      * @access public
      * @return void
      */
@@ -73,7 +73,7 @@ class Element
 
     /**
      * Returns element id.
-     * 
+     *
      * @access public
      * @return string
      */
@@ -84,7 +84,7 @@ class Element
 
     /**
      * Returns element parent.
-     * 
+     *
      * @access public
      * @return Window | Element
      */
@@ -95,7 +95,7 @@ class Element
 
     /**
      * Sets the element parent.
-     * 
+     *
      * @param Window | Element $parent
      * @access public
      * @return void
@@ -109,7 +109,7 @@ class Element
 
     /**
      * Returns the output object.
-     * 
+     *
      * @access public
      * @return Terminal
      */
@@ -119,8 +119,19 @@ class Element
     }
 
     /**
+     * Returns the output object.
+     *
+     * @access public
+     * @return Terminal
+     */
+    public function getInput()
+    {
+        return $this->_parent->getInput();
+    }
+
+    /**
      * Select this element as the focus element.
-     * 
+     *
      * @access public
      * @return Element
      */
@@ -134,7 +145,7 @@ class Element
     /**
      * Applies focus, moving the cursor to the end of the
      * element.
-     * 
+     *
      * @access public
      * @return void
      */
@@ -151,7 +162,7 @@ class Element
 
     /**
      * Set element text.
-     * 
+     *
      * @param string $string
      * @access public
      * @return void
@@ -159,14 +170,17 @@ class Element
     public function setText($string)
     {
         $this->_hasChanges = true;
-        $this->_text = explode("\n", $string);
+        $this->_text = array();
+        foreach (explode("\n", $string) as $row) {
+            $this->_text[] = array('text' => $row);
+        };
 
         return $this;
     }
 
     /**
      * Set the element style.
-     * 
+     *
      * @param string $string
      * @access public
      * @return Element
@@ -189,8 +203,8 @@ class Element
 
     /**
      * Returns element style
-     * 
-     * @param string $key 
+     *
+     * @param string $key
      * @access public
      * @return string | array
      */
@@ -209,7 +223,7 @@ class Element
 
     /**
      * Returns element width
-     * 
+     *
      * @access public
      * @return int
      */
@@ -217,7 +231,7 @@ class Element
     {
         $width = 0;
         foreach ($this->_text as $row) {
-            $width = max($width, mb_strlen($row));
+            $width = max($width, mb_strlen($row['text']));
         }
 
         return $width;
@@ -225,7 +239,7 @@ class Element
 
     /**
      * Returns element height.
-     * 
+     *
      * @access public
      * @return int
      */
@@ -236,7 +250,7 @@ class Element
 
     /**
      * Returns the parent element size.
-     * 
+     *
      * @access public
      * @return array
      */
@@ -251,7 +265,7 @@ class Element
 
     /**
      * Renders element in termminal if it has changed.
-     * 
+     *
      * @access public
      * @return void
      */
@@ -266,7 +280,8 @@ class Element
 
         $row = $this->_getStartRow($height);
         foreach ($this->_text as $line) {
-            $len = mb_strlen($line);
+            $len = mb_strlen($line['text']);
+            $line = $this->_prepareLine($line);
             $col = $this->_getStartCol($len, $width);
             if ($row !== false) {
                 $output->setPos($row, $col);
@@ -284,8 +299,64 @@ class Element
     }
 
     /**
+     * Prepares a text line with ANSI escape codes.
+     *
+     * @param array $line
+     * @access protected
+     * @return string
+     */
+    protected function _prepareLine($line)
+    {
+        $text = '';
+        $color = array();
+        $reset = '';
+        if (isset($line['text'])) {
+            $text = $line['text'];
+        }
+        if (isset($line['color'])) {
+            $color[] = $this->_getFgColor($line['color']);
+        }
+        if (isset($line['background'])) {
+            $color[] = $this->_getBgColor($line['background']);
+        }
+
+        if ($color) {
+            $color = "\033[" . implode(';', $color) . 'm';
+            $reset = "\033[0m";
+        } else {
+            $color = '';
+        }
+
+        return $color . $text . $reset;
+    }
+
+    /**
+     * Returns an ANSI foreground color code.
+     *
+     * @param string $color
+     * @access protected
+     * @return string
+     */
+    protected function _getFgColor($color)
+    {
+        return $this->getOutput()->getFgColor($color);
+    }
+
+    /**
+     * Returns an ANSI background color code.
+     *
+     * @param string $color
+     * @access protected
+     * @return string
+     */
+    protected function _getBgColor($color)
+    {
+        return $this->getOutput()->getBgColor($color);
+    }
+
+    /**
      * Calculates start row from element style settings.
-     * 
+     *
      * @param mixed $len
      * @access protected
      * @return int
@@ -321,7 +392,7 @@ class Element
 
     /**
      * Calculates start col from element style settings.
-     * 
+     *
      * @param int $len
      * @param int $width
      * @param int $offset
@@ -355,7 +426,7 @@ class Element
 
     /**
      * Get element horizontal offset.
-     * 
+     *
      * @param int $width
      * @access protected
      * @return int

@@ -295,6 +295,7 @@ class Element
         if (!$force && !$this->_hasChanges) {
             return;
         }
+        $this->_beforeRender();
         $output = $this->getOutput();
         $width  = $this->getWidth();
         $height = $this->getHeight();
@@ -317,6 +318,11 @@ class Element
         $this->_hasChanges = false;
 
         return $this;
+    }
+
+    protected function _beforeRender()
+    {
+
     }
 
     /**

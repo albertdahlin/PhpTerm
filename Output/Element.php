@@ -248,6 +248,27 @@ class Element
         return count($this->_text);
     }
 
+    public function getMaxHeight()
+    {
+        $maxHeight = $this->getStyle('max-height');
+        if ($maxHeight) {
+            return min($maxHeight, $this->getParent()->getMaxHeight());
+        }
+
+        return $this->getParent()->getMaxHeight();
+    }
+
+    public function getMaxWidth()
+    {
+        $maxWidth = $this->getStyle('max-width');
+
+        if ($maxWidth) {
+            return min($maxWidth, $this->getParent()->getMaxWidth());
+        }
+
+        return $this->getParent()->getMaxWidth();
+    }
+
     /**
      * Returns the parent element size.
      *

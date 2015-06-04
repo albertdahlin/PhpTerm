@@ -59,7 +59,7 @@ class Window
      */
     public function __construct()
     {
-        $this->_input  = new Input\Keyboard;
+        $this->_input  = Input\Keyboard::getInstance();
         $this->_output = new Output\Terminal;
     }
 
@@ -98,6 +98,18 @@ class Window
         }
 
         return $this->_size;
+    }
+
+    public function getMaxHeight()
+    {
+        $size = $this->getSize();
+        return $size['row'];
+    }
+
+    public function getMaxWidth()
+    {
+        $size = $this->getSize();
+        return $size['col'];
     }
 
     /**

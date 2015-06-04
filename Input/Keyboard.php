@@ -41,11 +41,28 @@ class Keyboard
      * @access public
      * @return void
      */
-    public function __construct()
+    protected function __construct()
     {
         $this->_termConfig = exec('stty -g');
         system('stty -icanon -echo -isig iutf8');
         $this->_keys = new Keys\Xterm;
+    }
+
+    /**
+     * Returns a singleton instance.
+     *
+     * @static
+     * @access public
+     * @return Dahl\PhpTerm\Input\Keyboard
+     */
+    public static function getInstance()
+    {
+        static $instance = null;
+        if (null === $instance) {
+            $instance = new static();
+        }
+
+        return $instance;
     }
 
     /**
